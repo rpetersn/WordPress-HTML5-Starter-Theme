@@ -1,0 +1,510 @@
+/******************************************************************
+Theme Name: MTBROADCASTERS
+
+
+******************************************************************/
+
+/******************************************************************
+GENERAL LAYOUT STYLES
+******************************************************************/
+
+body { background: #fff url(library/images/bkgrd_body.png) repeat-x; }
+
+#container, .wrap { 
+	width: 1010px;
+	margin: 0 auto;
+	padding: 0;
+	max-width: 1010px; /* remove or edit to adjust width */
+	min-width: 1010px; /* remove or edit to adjust width */
+}
+
+	#nav { float: left; }
+	
+	/* default styles & fixes */
+	#main { 
+		width: 680px; 
+		padding: 20px;
+		float: right;
+		background: #fafafa; /* adds bg to post area */
+		-moz-border-radius: 1px;
+		-webkit-border-radius: 1px;
+		border-radius: 1px;
+	
+	}
+	#sidebar1 { margin-right: 0; } 
+	
+/******************************************************************
+LINK STYLES
+******************************************************************/
+
+a, a:visited {}
+a:hover, a:link {}
+a:active {} /* on click */
+a:link { 
+	-webkit-tap-highlight-color : rgba(0,0,0,0); /* this highlights links on Iphones / iPads */
+}
+
+/******************************************************************
+TEXT SELECTION STYLES
+******************************************************************/
+
+/* Safari, Chrome, iPhones, iPads */
+::-webkit-selection { 
+	background: #6fc2f6; 
+	color:#fff; 
+	text-shadow : none; 
+}
+
+/* Firefox */
+::-moz-selection { 
+	background: #6fc2f6; 
+	color:#fff; 
+	text-shadow : none; 
+}
+
+/* The Rest of em */
+::selection { 
+	background: #6fc2f6; 
+	color:#fff; 
+	text-shadow : none; 
+}
+
+
+/******************************************************************
+WORDPRESS BODY CLASSES
+want to style a page via body class? go ahead
+******************************************************************/
+
+body.rtl {}
+body.home {} /* home page */
+body.blog {} 
+body.archive {} /* archive page */
+body.date {} /* date archive page */
+	body.date-paged-1 {} /* replace the number to the corresponding page number */
+body.search {} /* search page */
+	body.search-results {} /* search result page */
+	body.search-no-results {} /* no results search page */
+	body.search-paged-1 {} /* individual paged search (i.e. body.search-paged-3) */
+body.error404 {} /* 404 page */
+body.single {} /* single post page */
+	body.postid-1 {} /* individual post page by id (i.e. body.postid-73) */
+	body.single-paged-1 {} /* individual paged single (i.e. body.single-paged-3) */
+body.attachment {} /* attatchment page */
+	body.attachmentid-1 {} /* individual attatchment page (i.e. body.attachmentid-763) */
+	body.attachment-mime-type {} /* style mime type pages 
+body.author {} /* author page */
+	body.author-nicename {} /* user nicename (i.e. body.author-samueladams) */
+	body.author-paged-1 {} /* paged author archives (i.e. body.author-paged-4) for page 4 */
+body.category {} /* category page */
+	body.category-1 {} /* individual category page (i.e. body.category-6) */
+	body.category-paged-1 {} /* replace the number to the corresponding page number */
+body.tag {} /* tag page */
+	body.tag-slug {} /* individual tag page (i.e. body.tag-news) */
+	body.tag-paged-1 {} /* replace the number to the corresponding page number */
+body.page-template {} /* custom page template page */
+	body.page-template-page-php {} /* individual page template (i.e. body.page-template-contact-php */
+	body.page-paged-1 {} /* replace the number to the corresponding page number */
+	body.page-parent {}
+	body.page-child {}
+	body.parent-pageid-1 {} /* replace the number to the corresponding page number */
+body.logged-in {} /* if user is logged in */
+body.paged {} /* paged items like search results or archives */
+	body.paged-1 {} /* individual paged (i.e. body.paged-3) */
+	
+/* new browser classes */
+body.browser-lynx {} /* lynx browsers */
+body.browser-gecko {} /* firefox browsers */
+body.browser-opera {} /* opera browsers */
+body.browser-ns4 {} /* ns4 browsers */
+body.browser-safari {} /* safari browsers */
+body.browser-chrome {} /* chrome browsers */
+body.browser-ie {} /* ie browsers ( aka dinosaurs) */
+body.browser-iphone {} /* iphones (expirimental, best to use Media Queries) */
+
+
+/******************************************************************
+HEADLINES & TITLES
+******************************************************************/
+
+h1, .h1 {}
+h2, .h2 {}
+h3, .h3 {}
+h4, .h4 {}
+h5, .h5 {}
+
+h1 a, h2 a, h3 a, h4 a, h5 a {}
+
+/******************************************************************
+HEADER SYTLES
+******************************************************************/
+
+#header {background: url('library/images/mba_header_bg.jpg') no-repeat 0 0; position: relative; height: 115px;}
+#header h1 { position: absolute; top: 0; left: 0; width: 250px;}
+	#header h1 a {height:0; padding: 115px 0 0 0; overflow:hidden; display: block;}
+#header p { position: absolute; top: 0; right: 0; width: 80px;}
+	#header p a {height:0; padding: 75px 0 0 0; overflow:hidden; display:block;}
+
+
+/******************************************************************
+NAVIGATION STYLES
+(Main Navigation)
+******************************************************************/
+
+
+/* NAVIGATION STYLING IN SUPERFISH.CSS ! */
+
+
+/******************************************************************
+POSTS & CONTENT STYLES
+******************************************************************/
+
+#content { width: 990px; margin: 0 auto; }
+
+	
+
+	
+	
+		/* want to style individual post classes? Booya! */
+		.post-id {} /* post by id (i.e. post-3) */
+		.post {} /* general post style */
+		.page {} /* general article on a page style */
+		.attachment {} /* general style on an attatchment */
+		.sticky {} /* sticky post style */
+		.hentry {} /* hentry class */
+		.category-slug {} /* style by category (i.e. category-videos) */
+		.tag-slug {} /* style by tag (i.e. tag-news) */
+	
+		/* post meta */
+		.meta {}
+			.meta time {}
+			
+		/* post content */
+		.post_content {}
+			
+			.post_content p {}
+			.post_content ul, .post_content ol, .post_content table, .post_content dl {}
+			.post_content ul, .post_content ol {}
+			.post_content li {}
+			.post_content ul li {}
+			.post_content ol li {}
+			
+			.post_content blockquote {}
+			.post_content blockquote:before {} /* this adds the quote before the blockquote */
+			
+			.post_content dl {}
+			.post_content dt {}
+			.post_content dd {}
+			
+			.post_content img {}
+			.post_content video {}
+			.post_content object {}
+			
+			.wp-caption {}
+			.wp-caption img {}
+			.wp-caption p.wp-caption-text {}
+			
+			/* image gallery styles */
+			.gallery dl {}
+			.gallery dt {}
+			.gallery dd {}
+			.gallery dl a {}
+			.gallery dl img {}
+			.gallery-caption {}
+			
+			.size-full {}
+			.size-large {}
+			.size-medium {}
+			.size-thumbnail {}
+			
+		article[id*=post-] footer {}
+		
+ul#docs li {
+	list-style:	none;
+}
+	
+/******************************************************************
+HOME SPECIFIC STYLES
+******************************************************************/
+	
+body.home .article {float:left; width: 400px;}
+body.home .aside {float:right; width: 200px;}
+body.home .article p {margin: 0; }	
+body.home .article h2 {padding: 20px 0 10px 0;}
+
+/******************************************************************
+PAGE NAVI STYLES
+(Special Feature)
+******************************************************************/
+	
+	/* fallback previous & next links */
+	.wp-prev-next {}
+		.wp-prev-next ul {}
+			.wp-prev-next .prev-link {}
+			.wp-prev-next .next-link {}
+	
+/******************************************************************
+COMMENT STYLES
+******************************************************************/
+
+#comments {}/* h3 comment title */
+	#comments span {} /* number of comments span */
+.comment-nav {}
+	.comment-nav ul {}
+		.comment-nav ul li {}
+.commentlist {}
+	.commentlist li {}
+		.commentlist li[class*=depth-] {}
+			.commentlist li.depth-1 {}
+			.commentlist li.depth-2 {}
+			.commentlist li.depth-3 {}
+			.commentlist li.depth-4 {}
+			.commentlist li.depth-5 {}
+				.commentlist li ul.children li {}
+				.commentlist li ul.children li.alt {}
+				.commentlist li ul.children li.byuser {}
+				.commentlist li ul.children li.comment {}
+				.commentlist li ul.children li.depth-1 {} /* change number for different depth */
+				.commentlist li ul.children li.bypostauthor {}
+				.commentlist li ul.children li.comment-author-admin {}
+				.commentlist li ul.children .alt {}
+				.commentlist li ul.children .odd {}
+				.commentlist li ul.children .even {}
+			.commentlist .alt {}
+			.commentlist .odd {}
+			.commentlist .even {}
+			.commentlist .parent {}
+			.commentlist .comment {}
+			.commentlist .children {}
+			.commentlist .pingback {}
+			.commentlist .bypostauthor {}
+			.commentlist .comment-author {}
+			.commentlist .comment-author-admin {}
+			.commentlist .thread-alt {}
+			.commentlist .thread-odd {}
+			.commentlist .thread-even {}	
+			.commentlist .vcard {}
+				.commentlist .vcard cite.fn {}
+				.commentlist .vcard time {}
+					.commentlist .vcard time a {}
+						.commentlist .vcard time a:hover {}
+				.commentlist .vcard img.photo {}
+				.commentlist .vcard img.avatar {}
+				.commentlist .vcard cite.fn a.url {}
+			.commentlist .comment-meta {} 
+				.commentlist .comment-meta a {}
+			.commentlist .commentmetadata {}
+				.commentlist .commentmetadata a {}
+			.commentlist li .comment_content {}
+				.commentlist li .comment_content p {}
+				.commentlist li ul {}
+				.commentlist .comment-reply-link {}
+					.commentlist a.comment-reply-link:hover {}
+
+/******************************************************************
+COMMENT FORM STYLES
+******************************************************************/
+
+#respond {}
+	#comment-form-title {}
+		#cancel-comment-reply {}
+			#cancel-comment-reply a {}
+	#commentform {}
+		.comments-logged-in-as {}
+		#comment-form-elements {}
+			#comment-form-elements li {}
+				#comment-form-elements label {}
+				#author, #email, #url, #comment {}
+					#author:focus, #email:focus, #url:focus, #comment:focus {}
+				#author, #email, #url {}
+			#allowed_tags {}
+				#comment {}
+				#submit {}
+
+/******************************************************************
+SIDEBARS & ASIDES
+******************************************************************/
+
+#sidebar1 {}
+
+	.widget {}
+		.widget li {}
+		
+		.widgettitle {}
+
+	/* links widget */
+	.widget_links {}
+	.widget_links ul {}
+	.widget_links ul li {}
+	.widget_links ul li a {}
+	
+	/* meta widget */
+	.widget_meta {}
+	.widget_meta ul {}
+	.widget_meta ul li {}
+	.widget_meta ul li a {}
+	
+	/* pages widget */
+	.widget_pages {}
+	.widget_pages ul {}
+	.widget_pages ul li {}
+	.widget_pages ul li a {}
+	
+	/* recent-posts widget */
+	.widget_recent_entries {}
+	.widget_recent_entries ul {}
+	.widget_recent_entries ul li {}
+	.widget_recent_entries ul li a {}
+	
+	/* archives widget */
+	.widget_archive {}
+	.widget_archive ul {}
+	.widget_archive ul li {} 
+	.widget_archive ul li a {}
+	.widget_archive select {}
+	.widget_archive option {}
+	
+	/* tag-cloud widget */
+	.widget_links {}
+	.widget_links li:after {}
+	.widget_links li:before {}
+	.widget_tag_cloud {}
+	.widget_tag_cloud a {}
+	.widget_tag_cloud a:after {}
+	.widget_tag_cloud a:before {}
+	
+	/* calendar widget */
+	.widget_calendar {}
+	#calendar_wrap {}
+	#calendar_wrap th {}
+	#calendar_wrap td {}
+	#wp-calendar tr td {}
+	#wp-calendar caption {}
+	#wp-calendar a {}
+	#wp-calendar #today {}
+	#wp-calendar #prev {}
+	#wp-calendar #next {}
+	#wp-calendar #next a {}
+	#wp-calendar #prev a {}
+	
+	/* category widget */
+	.widget_categories {}
+	.widget_categories ul {}
+	.widget_categories ul li {} 
+	.widget_categories ul ul.children {}
+	.widget_categories a {}
+	.widget_categories select{}
+	.widget_categories select#cat {}
+	.widget_categories select.postform {}
+	.widget_categories option {}
+	.widget_categories .level-0 {}
+	.widget_categories .level-1 {}
+	.widget_categories .level-2 {}
+	.widget_categories .level-3 {}
+	
+	/* recent-comments widget */
+	.recentcomments {}
+	#recentcomments {}
+	#recentcomments li {}
+	#recentcomments li a {}
+	.widget_recent_comments {}
+	
+	/* search widget */
+	#searchform {}
+	.widget_search {}
+	.screen-reader-text {}
+	
+	/* text widget */
+	.textwidget {}
+	.widget_text {}
+	.textwidget p {}
+/******************************************************************
+TABLE STYLES
+******************************************************************/
+table{
+	width:100%;
+	
+}
+table tr{
+
+}
+
+table tr th{
+}
+table tr td{
+	vertical-align:middle;
+	padding: 15px
+}
+table tr td p{
+	margin:0 !important;
+}
+table tr.even{
+	border-bottom:1px solid #999999;
+	background-color:#CCCCCC;
+	
+}
+
+
+/******************************************************************
+FOOTER STYLES
+******************************************************************/
+
+#footer {clear: both; text-align: center; padding: 20px 0 20px 0;}	
+			
+
+	
+/******************************************************************
+MEDIA QUERIES & DEVICE STYLES
+Developed by: Andy Clarke & the 320 & Up Extension
+URL: http://stuffandnonsense.co.uk/projects/320andup/
+******************************************************************/
+
+@media only screen and (min-width: 480px) {
+	/* insert styles here */
+}
+
+@media only screen and (min-width: 768px) {
+/* insert styles here */
+}
+
+@media only screen and (min-width: 992px) {
+/* insert styles here */
+}
+
+@media only screen and (min-width: 1382px) {
+/* insert styles here */
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+/* insert styles here */
+}
+
+/******************************************************************
+PRINT STYLES
+(Handled by default, but if you want to edit it, feel free)
+******************************************************************/
+
+@media print { }
+
+/******************************************************************
+IE SPECIFIC FIXES
+******************************************************************/
+
+/*
+Thanks to the HTML5 Boilerplate there's an easier way
+to target IE specific bugs. Simply use the html class
+to target the specific version of IE.
+
+To target the .post_content area in IE6, use:
+html.ie6 .post_content { ... }
+
+To target the .post_content area in IE7, use:
+html.ie7 .post_content { ... }
+
+To target the .post_content area in IE8, use:
+html.ie8 .post_content { ... }
+
+
+Much easier right? This way, you don't have to call
+any more stylesheets, you can leave it at the bottom
+and it will overwrite depending on the html class.
+*/
