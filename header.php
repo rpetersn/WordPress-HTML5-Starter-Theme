@@ -58,7 +58,7 @@
 			<header role="banner">
 			
 				<div id="header">
-					<h1 id="logo"><a href="/">Montana Broadcasters Association</a></h1>
+					<h1 id="logo"><a href="/">Company Logo Here</a></h1>
 					<p id="home"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
 
 				</div> <!-- end #inner-header -->
