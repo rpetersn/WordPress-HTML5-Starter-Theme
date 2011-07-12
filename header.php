@@ -58,28 +58,33 @@
 			<header role="banner">
 			
 				<div id="header">
-					<h1 id="logo"><a href="/">Company Logo Here</a></h1>
+					<h1 id="logo"><a href="/">Montana Broadcasters Association</a></h1>
 					<p id="home"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
+                    
+                    
+                    <nav role="navigation">
 
-				</div> <!-- end #inner-header -->
+	            		<div id="nav">
+                        
+                                                    <?php wp_nav_menu( array(  
+                                                     'menu' => 'Global Navigation',
+                                                     'container'       => '', 
+                                                     'menu_class' => 'sf-menu', 
+                                                     //'menu_class' => 'sf-menu sf-vertical', 
+                                                     'theme_location' => 'global' 
+                                                     ) ); ?>
+                        
+                		</div><!-- end nav div -->
+                
+            </nav> <!-- end nav -->
+                    
+
+				</div> <!-- end #header -->
 			
 			</header> <!-- end header -->
             
             <div id="content" class="clearfix">
             
-            <nav role="navigation">
 
-	            <div id="nav">
-                        
-                                                    <?php wp_nav_menu( array(  
-                                                     'menu' => 'Global Navigation',
-                                                     'container'       => '', 
-                                                     'menu_class' => 'sf-menu sf-vertical', 
-                                                     'theme_location' => 'global' 
-                                                     ) ); ?>
-                        
-                </div>
-                
-            </nav> <!-- end nav -->
             
             <div id="main" class="clearfix" style="width: 680px; padding: 20px; display: block;">
