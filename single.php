@@ -10,7 +10,7 @@
 							
 							<h1><?php the_title(); ?></h1>
 							
-							<p class="meta">Posted <time><?php the_time('F jS, Y'); ?></time> by <?php the_author_posts_link(); ?> <span class="amp">&</span> filed <?php the_category(', '); ?>.</p>
+							<p class="meta">Posted <time datetime="<?php the_time('Y-m-d'); ?>"><?php the_time('F jS, Y'); ?></time> by <?php the_author_posts_link(); ?> <span class="amp">&</span> filed <?php the_category(', '); ?>.</p>
 						
 						</header> <!-- end article header -->
 					
