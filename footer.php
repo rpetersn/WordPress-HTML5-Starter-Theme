@@ -7,7 +7,7 @@
 			
 				<div id="footer" class="clearfix">
 					
-				<p>&copy; Copyright <?php echo date('Y'); ?> - Montana Broadcasters Association</p>
+				<p>&copy; Copyright <?php echo date('Y'); ?></p>
                 
 				</div> <!-- end #footer -->
 				
