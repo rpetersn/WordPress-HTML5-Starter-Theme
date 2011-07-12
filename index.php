@@ -10,7 +10,7 @@
 							
 							<h1 class="h2"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h1>
 							
-							<p class="meta">Posted <time><?php the_time('F jS, Y'); ?></time> by <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "bonestheme"); ?> <?php the_category(', '); ?>.</p>
+							<p class="meta">Posted <time datetime="<?php the_time('Y-m-d'); ?>"><?php the_time('F jS, Y'); ?></time> by <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "bonestheme"); ?> <?php the_category(', '); ?>.</p>
 						
 						</header> <!-- end article header -->
 					
