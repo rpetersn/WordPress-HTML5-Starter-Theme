@@ -20,7 +20,7 @@
 	a new version of timthumb.
 
 */
-define ('VERSION', '2.5');										// Version of this script 
+define ('VERSION', '2.8');										// Version of this script 
 //Load a config file if it exists. Otherwise, use the values below.
 if( file_exists('timthumb-config.php')) 	require_once('timthumb-config.php');
 if(! defined( 'DEBUG_ON' ) ) 			define ('DEBUG_ON', false);				// Enable debug logging to web server error log (STDERR)
@@ -43,12 +43,19 @@ if(! defined('WAIT_BETWEEN_FETCH_ERRORS') ) 	define ('WAIT_BETWEEN_FETCH_ERRORS'
 if(! defined('BROWSER_CACHE_MAX_AGE') ) 	define ('BROWSER_CACHE_MAX_AGE', 864000);		// Time to cache in the browser
 if(! defined('BROWSER_CACHE_DISABLE') ) 	define ('BROWSER_CACHE_DISABLE', false);		// Use for testing if you want to disable all browser caching
 
-//Image size
+//Image size and defaults
 if(! defined('MAX_WIDTH') ) 			define ('MAX_WIDTH', 1500);				// Maximum image width
 if(! defined('MAX_HEIGHT') ) 			define ('MAX_HEIGHT', 1500);				// Maximum image height
+if(! defined('NOT_FOUND_IMAGE') )		define ('NOT_FOUND_IMAGE', '');				//Image to serve if any 404 occurs 
+if(! defined('ERROR_IMAGE') )			define ('ERROR_IMAGE', '');				//Image to serve if an error occurs instead of showing error message 
 
 //Image compression is enabled if either of these point to valid paths
+
+//These are now disabled by default because the file sizes of PNGs (and GIFs) are much smaller than we used to generate. 
+//They only work for PNGs. GIFs and JPEGs are not affected.
+if(! defined('OPTIPNG_ENABLED') ) 		define ('OPTIPNG_ENABLED', false);  
 if(! defined('OPTIPNG_PATH') ) 			define ('OPTIPNG_PATH', '/usr/bin/optipng'); //This will run first because it gives better compression than pngcrush. 
+if(! defined('PNGCRUSH_ENABLED') ) 		define ('PNGCRUSH_ENABLED', false); 
 if(! defined('PNGCRUSH_PATH') ) 		define ('PNGCRUSH_PATH', '/usr/bin/pngcrush'); //This will only run if OPTIPNG_PATH is not set or is not valid
 
 /*
@@ -95,7 +102,7 @@ if(! defined('WEBSHOT_SCREEN_X') ) 	define ('WEBSHOT_SCREEN_X', '1024');			//102
 if(! defined('WEBSHOT_SCREEN_Y') ) 	define ('WEBSHOT_SCREEN_Y', '768');			//768 works ok
 if(! defined('WEBSHOT_COLOR_DEPTH') ) 	define ('WEBSHOT_COLOR_DEPTH', '24');			//I haven't tested anything besides 24
 if(! defined('WEBSHOT_IMAGE_FORMAT') ) 	define ('WEBSHOT_IMAGE_FORMAT', 'png');			//png is about 2.5 times the size of jpg but is a LOT better quality
-if(! defined('WEBSHOT_TIMEOUT') ) 	define ('WEBSHOT_TIMEOUT', '300');			//Seconds to wait for a webshot
+if(! defined('WEBSHOT_TIMEOUT') ) 	define ('WEBSHOT_TIMEOUT', '20');			//Seconds to wait for a webshot
 if(! defined('WEBSHOT_USER_AGENT') ) 	define ('WEBSHOT_USER_AGENT', "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.18) Gecko/20110614 Firefox/3.6.18"); //I hate to do this, but a non-browser robot user agent might not show what humans see. So we pretend to be Firefox
 if(! defined('WEBSHOT_JAVASCRIPT_ON') ) define ('WEBSHOT_JAVASCRIPT_ON', true);			//Setting to false might give you a slight speedup and block ads. But it could cause other issues.
 if(! defined('WEBSHOT_JAVA_ON') ) 	define ('WEBSHOT_JAVA_ON', false);			//Have only tested this as fase
@@ -125,6 +132,7 @@ timthumb::start();
 
 class timthumb {
 	protected $src = "";
+	protected $is404 = false;
 	protected $docRoot = "";
 	protected $lastURLError = false;
 	protected $localImage = "";
@@ -177,7 +185,6 @@ class timthumb {
 				}
 			}
 			$this->cacheDirectory = FILE_CACHE_DIRECTORY;
-			touch($this->cacheDirectory . '/index.php');
 			touch($this->cacheDirectory . '/index.html');
 		} else {
 			$this->cacheDirectory = sys_get_temp_dir();
@@ -193,6 +200,8 @@ class timthumb {
 			return false;
 		}
 		if(BLOCK_EXTERNAL_LEECHERS && array_key_exists('HTTP_REFERER', $_SERVER) && (! preg_match('/^https?:\/\/(?:www\.)?' . $this->myHost . '(?:$|\/)/i', $_SERVER['HTTP_REFERER']))){
+			// base64 encoded red image that says 'no hotlinkers'
+			// nothing to worry about! :)
 			$imgData = base64_decode("R0lGODlhUAAMAIAAAP8AAP///yH5BAAHAP8ALAAAAABQAAwAAAJpjI+py+0Po5y0OgAMjjv01YUZ\nOGplhWXfNa6JCLnWkXplrcBmW+spbwvaVr/cDyg7IoFC2KbYVC2NQ5MQ4ZNao9Ynzjl9ScNYpneb\nDULB3RP6JuPuaGfuuV4fumf8PuvqFyhYtjdoeFgAADs=");
 			header('Content-Type: image/gif');
 			header('Content-Length: ' . sizeof($imgData));
@@ -240,7 +249,9 @@ class timthumb {
 		} else {
 			$this->localImage = $this->getLocalImagePath($this->src);
 			if(! $this->localImage){
+				$this->debug(1, "Could not find the local image: {$this->localImage}");
 				$this->error("Could not find the internal image you specified.");
+				$this->set404();
 				return false;
 			}
 			$this->debug(1, "Local image path is {$this->localImage}");
@@ -276,6 +287,7 @@ class timthumb {
 			} else {
 				$this->debug(3, "webshot is NOT set so we're going to try to fetch a regular image.");
 				$this->serveExternalImage();
+
 			}
 		} else {
 			$this->debug(3, "Got request for internal image. Starting serveInternalImage()");
@@ -285,6 +297,21 @@ class timthumb {
 	}
 	protected function handleErrors(){
 		if($this->haveErrors()){ 
+			if(NOT_FOUND_IMAGE && $this->is404()){
+				if($this->serveImg(NOT_FOUND_IMAGE)){
+					exit(0);
+				} else {
+					$this->error("Additionally, the 404 image that is configured could not be found or there was an error serving it.");
+				}
+			}
+			if(ERROR_IMAGE){
+				if($this->serveImg(ERROR_IMAGE)){
+					exit(0);
+				} else {
+					$this->error("Additionally, the error image that is configured could not be found or there was an error serving it.");
+				}
+			}
+				
 			$this->serveErrors(); 
 			exit(0); 
 		}
@@ -342,6 +369,7 @@ class timthumb {
 						return false; //to indicate we didn't serve from cache and app should try and load
 					} else {
 						$this->debug(3, "Empty cachefile is still fresh so returning message saying we had an error fetching this image from remote host.");
+						$this->set404();
 						$this->error("An error occured fetching image.");
 						return false; 
 					}
@@ -511,7 +539,6 @@ class timthumb {
 		 else
 		  $new_height=$final_height;
 		}
-
 
 		// generate new w/h if not provided
 		if ($new_width && !$new_height) {
@@ -686,7 +713,7 @@ class timthumb {
 
 		}
 		//Straight from Wordpress core code. Reduces filesize by up to 70% for PNG's
-		if ( IMAGETYPE_PNG == $origType && function_exists('imageistruecolor') && !imageistruecolor( $image ) ){
+		if ( (IMAGETYPE_PNG == $origType || IMAGETYPE_GIF == $origType) && function_exists('imageistruecolor') && !imageistruecolor( $image ) && imagecolortransparent( $image ) > 0 ){
 			imagetruecolortopalette( $canvas, false, imagecolorstotal( $image ) );
 		}
 
@@ -700,12 +727,12 @@ class timthumb {
 			imagepng($canvas, $tempfile, floor($quality * 0.09));
 		} else if(preg_match('/^image\/gif$/i', $mimeType)){
 			$imgType = 'gif';
-			imagepng($canvas, $tempfile, floor($quality * 0.09));
+			imagegif($canvas, $tempfile);
 		} else {
 			return $this->sanityFail("Could not match mime type after verifying it previously.");
 		}
 
-		if( OPTIPNG_PATH && @is_file(OPTIPNG_PATH)){
+		if($imgType == 'png' && OPTIPNG_ENABLED && OPTIPNG_PATH && @is_file(OPTIPNG_PATH)){
 			$exec = OPTIPNG_PATH;
 			$this->debug(3, "optipng'ing $tempfile");
 			$presize = filesize($tempfile);
@@ -720,7 +747,7 @@ class timthumb {
 			} else {
 				$this->debug(1, "optipng did not change image size.");
 			}
-		} else if(PNGCRUSH_PATH && @is_file(PNGCRUSH_PATH)){
+		} else if($imgType == 'png' && PNGCRUSH_ENABLED && PNGCRUSH_PATH && @is_file(PNGCRUSH_PATH)){
 			$exec = PNGCRUSH_PATH;
 			$tempfile2 = tempnam($this->cacheDirectory, 'timthumb_tmpimg_');
 			$this->debug(3, "pngcrush'ing $tempfile to $tempfile2");
@@ -771,6 +798,7 @@ class timthumb {
 		}
 		$this->debug(3, "Done image replace with security header. Cleaning up and running cleanCache()");
 		imagedestroy($canvas);
+		imagedestroy($image);
 		return true;
 	}
 	protected function calcDocRoot(){
@@ -890,6 +918,7 @@ class timthumb {
 		$out = `$command`;
 		$this->debug(3, "Received output: $out");
 		if(! is_file($tempfile)){
+			$this->set404();
 			return $this->error("The command to create a thumbnail failed.");
 		}
 		$this->cropTop = true;
@@ -975,6 +1004,12 @@ class timthumb {
 		}
 	}
 	protected function sendImageHeaders($mimeType, $dataSize){
+		if(! preg_match('/^image\//i', $mimeType)){
+			$mimeType = 'image/' . $mimeType;
+		}
+		if(strtolower($mimeType) == 'image/jpg'){
+			$mimeType = 'image/jpeg';
+		}
 		$gmdate_expires = gmdate ('D, d M Y H:i:s', strtotime ('now +10 days')) . ' GMT';
 		$gmdate_modified = gmdate ('D, d M Y H:i:s') . ' GMT';
 		// send content headers then display image
@@ -1005,9 +1040,7 @@ class timthumb {
 	}
 	protected function openImage($mimeType, $src){
 		switch ($mimeType) {
-			case 'image/jpg':
-				$image = imagecreatefromjpeg ($src);
-				break;
+			case 'image/jpg': //This isn't a valid mime type so we should probably remove it
 			case 'image/jpeg':
 				$image = imagecreatefromjpeg ($src);
 				break;
@@ -1103,7 +1136,10 @@ class timthumb {
 			
 			$curlResult = curl_exec($curl);
 			fclose(self::$curlFH);
-
+			$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			if($httpStatus == 404){
+				$this->set404();
+			}
 			if($curlResult){
 				curl_close($curl);
 				return true;
@@ -1115,7 +1151,16 @@ class timthumb {
 		} else {
 			$img = @file_get_contents ($url);
 			if($img === false){
-				$this->lastURLError = error_get_last();
+				$err = error_get_last();
+				if(is_array($err) && $err['message']){
+					$this->lastURLError = $err['message'];
+				} else {
+					$this->lastURLError = $err;
+				}
+				if(preg_match('/404/', $this->lastURLError)){
+					$this->set404();
+				}
+
 				return false;
 			}
 			if(! file_put_contents($tempfile, $img)){
@@ -1126,5 +1171,31 @@ class timthumb {
 		}
 
 	}
+	protected function serveImg($file){
+		$s = getimagesize($file);
+		if(! ($s && $s['mime'])){
+			return false;
+		}
+		header ('Content-Type: ' . $s['mime']);
+		header ('Content-Length: ' . filesize($file) );
+		header ('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+		header ("Pragma: no-cache");
+		$bytes = @readfile($file);
+		if($bytes > 0){
+			return true;
+		}
+		$content = @file_get_contents ($file);
+		if ($content != FALSE){
+			echo $content;
+			return true;
+		}
+		return false;
+
+	}
+	protected function set404(){
+		$this->is404 = true;
+	}
+	protected function is404(){
+		return $this->is404;
+	}
 }
-?>
