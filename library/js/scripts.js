@@ -18,7 +18,7 @@ J(document).ready(function() {
 	J("a[href$='.ppt']").addClass("ppt");
 
 	// Superfish
-    J(document).ready(function() { 
+ 
         J('ul.sf-menu').superfish({ 
 			hoverClass:    'sfHover',          				// the class applied to hovered list items 
 			pathClass:     'overideThisToUse', 				// the class you have applied to list items that lead to the current page 
@@ -113,10 +113,7 @@ J(document).ready(function() {
 		'type'				: 'iframe',
 		'titleShow'			: false,
 		'padding'			: 0
-	});		
+		});		
 
-        
-        
-    }); 
  
 }); /* end of as page load scripts */
