@@ -58,7 +58,7 @@
 			<header role="banner">
 			
 				<div id="header">
-					<h1 id="logo"><a href="/">Montana Broadcasters Association</a></h1>
+					<h1 id="logo"><a href="/">Site Name Here</a></h1>
 					<p id="home"><a href="<?php echo home_url(); ?>" rel="nofollow"><?php bloginfo('name'); ?></a></p>
                     
                     
@@ -70,21 +70,19 @@
                                                      'menu' => 'Global Navigation',
                                                      'container'       => '', 
                                                      'menu_class' => 'sf-menu', 
-                                                     //'menu_class' => 'sf-menu sf-vertical', 
                                                      'theme_location' => 'global' 
                                                      ) ); ?>
                         
                 		</div><!-- end nav div -->
                 
-            </nav> <!-- end nav -->
+            		</nav> <!-- end nav -->
                     
 
-				</div> <!-- end #header -->
+			</div> <!-- end #header -->
 			
 			</header> <!-- end header -->
             
             <div id="content" class="clearfix">
             
 
-            
-            <div id="main" class="clearfix" style="width: 680px; padding: 20px; display: block;">
+            <div id="main" class="clearfix">
