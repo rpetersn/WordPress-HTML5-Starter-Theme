@@ -1,12 +1,4 @@
 /******************************************************************
-Special Thanks to:
-Paul Irish, Divya Manian & the HTML5 Boilerplate
-Andy Clarke & the 320 & Up Extension
-Yoast for some WP functions & optimization ideas
-Andrew Rogers for code optimization
-David Dellanave for speed & code optimization
-and several other developers. :)
-
 I ADVISE AGAINST EDITING THESE FILES. USE THE STYLE.CSS FILE IN THE ROOT.
 ******************************************************************/
 
@@ -82,7 +74,7 @@ button {  width: auto; overflow: visible; }
 .ie7 img, .iem7 img { -ms-interpolation-mode: bicubic; }
 
 /* hidden elements */
-.hidden { display: none; visibility: hidden; } 
+.hidden, .hide { display: none; visibility: hidden; } 
 .visuallyhidden { position: absolute !important; clip: rect(1px 1px 1px 1px);  clip: rect(1px, 1px, 1px, 1px); }
 
 /* added from 320&Up Project */
@@ -305,6 +297,12 @@ COMMENT STYLES
 		
 		
 /******************************************************************
+GRAVITY FORM STYLES
+******************************************************************/
+
+.gform_edit_link {display:none;}
+
+/******************************************************************
 FANCYBOX STYLES
 ******************************************************************/
 
@@ -373,6 +371,11 @@ FANCYBOX STYLES
 	z-index: 1101;
 	outline: none;
 	display: none;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-safari-box-sizing: content-box;
+	box-sizing: content-box;
+
 }
 
 #fancybox-outer {
@@ -380,6 +383,11 @@ FANCYBOX STYLES
 	width: 100%;
 	height: 100%;
 	background: #fff;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-safari-box-sizing: content-box;
+	box-sizing: content-box;
+
 }
 
 #fancybox-content {
@@ -515,7 +523,7 @@ FANCYBOX STYLES
 #fancybox-bg-ne {
 	top: -20px;
 	right: -20px;
-	background-image: url('../fancybox.png');
+	background-image: url('../fancybox/fancybox.png');
 	background-position: -40px -162px;
 }
 
