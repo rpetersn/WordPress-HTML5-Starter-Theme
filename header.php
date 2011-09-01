@@ -10,7 +10,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=1010" />
 		
-		<title><?php wp_title(); ?></title>
+		<title><?php wp_title(''); ?></title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 
